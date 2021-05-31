@@ -25,7 +25,14 @@
     "css variable injection",
     "vue 2.x"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "@rollup/pluginutils": "^4.1.0",
+    "@vue/component-compiler-utils": "^3.2.0",
+    "hashsum": "0.0.1",
+    "postcss": "^8.3.0",
+    "querystring": "^0.2.1",
+    "vue-template-compiler": "^2.6.12"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.4.3",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
