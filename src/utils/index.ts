@@ -4,7 +4,7 @@ import { PaserVueRequestResult, VueQuery, CssVarsPluginOptions } from '../types'
 
 const cssVarRE = /\bv-bind\(\s*(?:'([^']+)'|"([^"]+)"|([^'"][^)]*))\s*\)/g
 
-export function parseVueRequest(id): PaserVueRequestResult {
+export function parseVueRequest(id: string): PaserVueRequestResult {
   const [filename, rawQuery] = id.split('?', 2)
   const query: VueQuery = qs.parse(rawQuery) as any
   if (query.vue != null)
@@ -41,3 +41,24 @@ export const cssVarsPlugin: PluginCreator<CssVarsPluginOptions> = (opts) => {
   }
 }
 cssVarsPlugin.postcss = true
+
+export function parseCssVars(styles: Array<any>): string[] {
+  const vars: string[] = []
+  styles.forEach((style) => {
+    let match
+    // eslint-disable-next-line no-cond-assign
+    while ((match = cssVarRE.exec(style.content)))
+      vars.push(match[1] || match[2] || match[3])
+  })
+  return vars
+}
+
+export function genCssVarsFromList(
+  vars: string[],
+  id: string,
+  isProd: boolean
+): string {
+  return `{\n  ${vars
+    .map((key) => `"${genVarName(id, key, isProd)}": (${key})`)
+    .join(',\n  ')}\n}`
+}
