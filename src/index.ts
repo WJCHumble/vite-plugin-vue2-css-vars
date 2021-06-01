@@ -18,28 +18,30 @@ export default function vitePluginVue2CssVars(Options: Record<string, string> = 
     async transform(code: string, id: string) {
       const { query, filename } = parseVueRequest(id)
       const shortId = hashsum(filename)
-      if (!filter(filename) || query.type) {
-        // resolve style hmr
-        if (query.type && query.type === "style") {
-          const { css } = await postcss([cssVarsPlugin({ id: shortId })]).process(code);
-          return {
-            code: css,
-            map: null
-          };
-        }
-
+      // resolve style
+      if (query.type && query.type === "style") {
+        const { css } = await postcss([cssVarsPlugin({ id: shortId })]).process(code);
+        return {
+          code: css,
+          map: null
+        };
+      }
+      // resolve the .vue file which is without query
+      if (!filter(filename) || Object.keys(query).length) {
         return
       }
+
       const { template, styles, script } = parse({
         source: code,
         filename: filename,
         needMap: true,
         compiler: compiler as VueTemplateCompiler
       });
-      // rewrite css
+
       const { css } = await postcss([cssVarsPlugin({ id: shortId })]).process(styles[0].content)
-      // inject vueCssVars code
       const attrs = parseCssVars(styles)
+
+      // inject vueCssVars code
       const watchVarCode = attrs.map(attr => `
     this.$watch('${attr}', function(nVal) { 
       const vnode = this._vnode 
@@ -64,7 +66,19 @@ export default function vitePluginVue2CssVars(Options: Record<string, string> = 
     }
     ${watchVarCode}
   },`
-      code = `<template>\n ${template.content} \n</template>\n<script>\n ${script.content.slice(0, insertIndex)}${useCssVarsCode}${script.content.slice(insertIndex)} \n</script>\n<style scoped ${Object.keys(styles[0].attrs).filter(key => key !== 'scoped').map(key => `${key}='${styles[0].attrs[key]}'`).join(" ")}>\n ${css} \n</style>`
+      // rewrite sfc file
+      code = `<template>
+${template.content}
+</template>
+<script>
+${script.content.slice(0, insertIndex)}${useCssVarsCode}${script.content.slice(insertIndex)}
+</script>
+<style scoped ${Object.keys(styles[0].attrs).filter(key => key !== 'scoped')
+                                            .map(key => `${key}='${styles[0].attrs[key]}'`)
+                                            .join(" ")}>
+${css}
+</style>`
+
       return {
         code: code,
         map: null

@@ -57,7 +57,3 @@ And then, you can use the params of `data` options in `style` by `v-bind` direct
   }
 </style>
 ```
-
-## TODO
-
-- According to the `<style vars>` decide to whether inject useCssVars Code.

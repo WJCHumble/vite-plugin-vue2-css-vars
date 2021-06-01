@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style scoped lang="css">
+<style scoped>
 p {
   background: v-bind(color2)
 }
