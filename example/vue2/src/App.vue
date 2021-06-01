@@ -1,7 +1,9 @@
 <template>
   <div>
-    <button @click="changeColor">click me</button>
-    <div v-for="(item, index) in 10000" :key="index" class="word">vue</div>
+    <button @click="changeColor">change color</button>
+    <button @click="changeColor2">change color2</button>
+    <div class="word">vue2</div>
+    <p>vue3</p>
   </div>
 </template>
 
@@ -9,7 +11,8 @@
 export default {
   data() {
     return {
-      color: "red"
+      color: "blue",
+      color2: "#faa"
     }
   },
   methods: {
@@ -19,12 +22,22 @@ export default {
       } else {
         this.color = "red"
       }
-    }
+    },
+    changeColor2() {
+      if (this.color2 === "#faa") {
+        this.color2 = "#aaf" 
+      } else {
+        this.color2 = "#faa"
+      }
+    },
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="css">
+p {
+  background: v-bind(color2)
+}
 .word {
   background: v-bind(color)
 }
