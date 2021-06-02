@@ -1,26 +1,9 @@
-import qs from 'querystring'
+
+
+import { CssVarsPluginOptions } from './types'
 import { PluginCreator } from 'postcss'
-import { PaserVueRequestResult, VueQuery, CssVarsPluginOptions } from '../types'
 
 const cssVarRE = /\bv-bind\(\s*(?:'([^']+)'|"([^"]+)"|([^'"][^)]*))\s*\)/g
-
-export function parseVueRequest(id: string): PaserVueRequestResult {
-  const [filename, rawQuery] = id.split('?', 2)
-  const query: VueQuery = qs.parse(rawQuery) as any
-  if (query.vue != null)
-    query.vue = true
-
-  if (query.src != null)
-    query.src = true
-
-  if (query.index != null)
-    query.index = Number(query.index)
-
-  return {
-    filename,
-    query,
-  }
-}
 
 function genVarName(id: string, raw: string, isProd?: boolean): string {
   return `${id}-${raw.replace(/([^\w-])/g, '_')}`
@@ -61,4 +44,36 @@ export function genCssVarsFromList(
   return `{\n  ${vars
     .map((key) => `"${genVarName(id, key, isProd)}": (${key})`)
     .join(',\n  ')}\n}`
+}
+
+export function genCssVarsCode(
+  attrs: string[],
+  id: string
+): string {
+  const watchCode = attrs.map(attr => `
+      this.$watch('${attr}', function(nVal) { 
+        const vnode = this._vnode 
+        this._setVnodeVar(vnode, '--${id}-${attr}', nVal)
+      }, { immediate: true })\n`)
+
+    return `
+  mixins: [{
+    mounted: function () {
+      if (!this._setVnodeVar) {
+        this._setVnodeVar = function(vnode, cssVar, value) {
+          if (!vnode.tag) {
+            return
+          }
+
+          vnode.elm.style.setProperty(cssVar, value)\n
+          if (vnode.children && vnode.children.length) {
+            vnode.children.forEach((childVnode) => {
+              this._setVnodeVar(childVnode, cssVar, value);
+            });
+          }
+        }
+      }
+      ${watchCode}
+    }
+  }],`
 }

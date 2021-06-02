@@ -2,13 +2,19 @@
   <div>
     <button @click="changeColor">change color</button>
     <button @click="changeColor2">change color2</button>
-    <div class="word">vue2</div>
-    <p>vue3</p>
+    <div class="word">vue2 <p>vue3</p></div>
+    <HelloWorld/>
+    <van-button type="primary">primary button</van-button>
   </div>
 </template>
 
 <script>
+import HelloWorld from "../components/HelloWord.vue"
+
 export default {
+  components: {
+    HelloWorld
+  },
   data() {
     return {
       color: "blue",
@@ -34,11 +40,12 @@ export default {
 }
 </script>
 
-<style scoped>
-p {
-  background: v-bind(color2)
-}
+<style scoped lang="less" vars>
 .word {
-  background: v-bind(color)
+  background: v-bind(color);
+
+  p {
+    background: v-bind(color2);
+  }
 }
 </style>
