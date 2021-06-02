@@ -1,5 +1,7 @@
 ## vite-plugin-vue2-css-vars
 
+[English](https://github.com/WJCHumble/vite-plugin-vue2-css-vars) | [中文](https://github.com/WJCHumble/vite-plugin-vue2-css-vars/blob/main/README-CN.md)
+
 A vite plugin that allows you to use the CSS variable injection feature in **Vue 2.x** version.
 
 ## Usage
@@ -10,7 +12,7 @@ Install:
 npm i vite-plugin-vue2-css-vars -D
 ```
 
-Add the plugin to the `vite.config.ts`(or `vite.config.js`)，Note it must be add before `vite-plugin-vue2` plugin:
+Add the plugin to the `vite.config.ts`(or `vite.config.js`)，note it must be add before `vite-plugin-vue2` plugin:
 
 ```javascript
 import { defineConfig } from "vite";
