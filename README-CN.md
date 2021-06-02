@@ -1,6 +1,6 @@
 ## vite-plugin-vue2-css-vars
 
-一个可以让你在 Vue 2.x 版本使用 `Style` 动态变量注入特性的 Vite 插件。
+一个可以让你在 Vue 2.x 版本使用 **CSS 变量注入**特性的 Vite 插件。
 
 ## Usage
 
