@@ -51,7 +51,7 @@ And then, you can use the params of `data` options in `style` by `v-bind` direct
   };
 </script>
 
-<style scoped>
+<style scoped vars>
   .word {
     background: v-bind(color);
   }
