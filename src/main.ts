@@ -1,6 +1,6 @@
 import { VueTemplateCompiler } from '@vue/component-compiler-utils/dist/types'
 import { parse as SFCParse } from '@vue/component-compiler-utils'
-import compiler from 'vue-template-compiler'
+import * as vueTemplateCompiler from 'vue-template-compiler'
 import { transformStyle } from "./style"
 import { parseCssVars, genCssVarsCode } from "./cssVars"
 import { TransformResult } from 'vite'
@@ -16,7 +16,7 @@ export async function transformMain(
     source: code,
     filename: filename,
     needMap: true,
-    compiler: compiler as VueTemplateCompiler
+    compiler: vueTemplateCompiler as VueTemplateCompiler
   });
 
   const {code: css} = await transformStyle(styles[0].content, id)
