@@ -1,7 +1,6 @@
 ## vite-plugin-vue2-css-vars
 
 <a href="https://www.npmjs.com/package/vite-plugin-vue2-css-vars"><img src="https://img.shields.io/npm/v/vite-plugin-vue2-css-vars"/></a>
-<a href="https://www.npmjs.com/package/vite-plugin-vue2-css-vars"><img src="https://img.shields.io/npm/dw/vite-plugin-vue2-css-vars"/></a>
 
 [English](https://github.com/WJCHumble/vite-plugin-vue2-css-vars) | [中文](https://github.com/WJCHumble/vite-plugin-vue2-css-vars/blob/main/README-CN.md)
 
