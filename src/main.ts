@@ -18,14 +18,19 @@ export async function transformMain(
     needMap: true,
     compiler: vueTemplateCompiler as VueTemplateCompiler
   });
+
   // sfc hasn't style block
   if (!styles.length) {
     return
   }
 
   const {code: css} = await transformStyle(styles[0].content, id)
-  const attrs = parseCssVars(styles)
-  // In prod mode, will not auto inject useCssVars Code
+  const attrs = await parseCssVars(styles)
+  // In prod mode, will not auto inject useCssVars code without vars attr in style block
+  if (isProd && !styles[0].attrs.vars) {
+    return
+  }
+  // use v-bind(), but no use vars attr in style block
   if (!styles[0].attrs.vars && attrs.length) {
     throw new Error(`If you use v-bind() in <style>, you should use vars in <style>.`)
   }
