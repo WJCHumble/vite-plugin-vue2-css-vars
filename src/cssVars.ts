@@ -1,7 +1,9 @@
 
 
 import { CssVarsPluginOptions } from './types'
-import { PluginCreator } from 'postcss'
+import postcss, { PluginCreator } from 'postcss'
+import postcssDiscardComments from "postcss-discard-comments"
+import postScss from "postcss-scss"
 
 const cssVarRE = /\bv-bind\(\s*(?:'([^']+)'|"([^"]+)"|([^'"][^)]*))\s*\)/g
 
@@ -25,14 +27,14 @@ export const cssVarsPlugin: PluginCreator<CssVarsPluginOptions> = (opts) => {
 }
 cssVarsPlugin.postcss = true
 
-export function parseCssVars(styles: Array<any>): string[] {
+export async function parseCssVars(styles: Array<any>): Promise<string[]> {
+  // ignore the css comment code
+  const { css } = await postcss([postcssDiscardComments({removeAll: true})]).process(styles[0].content, {from: undefined, parser: postScss})
   const vars: string[] = []
-  styles.forEach((style) => {
-    let match
-    // eslint-disable-next-line no-cond-assign
-    while ((match = cssVarRE.exec(style.content)))
-      vars.push(match[1] || match[2] || match[3])
-  })
+  let match
+  while ((match = cssVarRE.exec(css))) {
+    vars.push(match[1] || match[2] || match[3])
+  }
   return vars
 }
 

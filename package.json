@@ -43,6 +43,7 @@
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "eslint": "^7.20.0",
+    "postcss-discard-comments": "^5.0.1",
     "tsup": "^4.2.0",
     "typescript": "^4.1.5",
     "vite": "^2.3.2"
