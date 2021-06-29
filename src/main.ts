@@ -18,6 +18,10 @@ export async function transformMain(
     needMap: true,
     compiler: vueTemplateCompiler as VueTemplateCompiler
   });
+  // sfc hasn't style block
+  if (!styles.length) {
+    return
+  }
 
   const {code: css} = await transformStyle(styles[0].content, id)
   const attrs = parseCssVars(styles)
