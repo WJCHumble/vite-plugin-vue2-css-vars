@@ -11,7 +11,7 @@
     "vite": "^2.0.0-beta.65",
     "vite-plugin-async-catch": "^0.1.2",
     "vite-plugin-vue2": "^1.5.1",
-    "vite-plugin-vue2-css-vars": "^0.1.2"
+    "vite-plugin-vue2-css-vars": "^0.1.8"
   },
   "dependencies": {
     "vant": "^2.12.20",
