@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-vue2-css-vars",
   "description": "A vite plugin that allows you to use the CSS variable injection feature in Vue 2.x version.",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -32,6 +32,7 @@
     "hashsum": "0.0.1",
     "npm": "^7.15.1",
     "postcss": "^8.3.0",
+    "postcss-discard-comments": "^5.0.1",
     "postcss-scss": "^4.0.0",
     "querystring": "^0.2.1",
     "slash": "^4.0.0",
@@ -43,7 +44,6 @@
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "eslint": "^7.20.0",
-    "postcss-discard-comments": "^5.0.1",
     "tsup": "^4.2.0",
     "typescript": "^4.1.5",
     "vite": "^2.3.2"
