@@ -19,8 +19,7 @@
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "tsup src/index.ts --dts --format cjs,esm",
-    "prepublishOnly": "npm run build",
-    "postversion": "git push --follow-tags"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "vite-plugin",
