@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformMain In dev mode, will auto inject cssVarsCode when use vars attr in style without v-bind() code 1`] = `
+"<template>
+
+<div>
+  <button @click=\\"changeColor\\">change color</button>
+</div>
+
+</template>
+<script>
+
+//
+//
+//
+//
+//
+//
+//
+
+export default {
+  mixins: [{
+    mounted: function () {
+      if (!this._setVnodeVar) {
+        this._setVnodeVar = function(vnode, cssVar, value) {
+          if (!vnode.tag) {
+            return
+          }
+
+          vnode.elm.style.setProperty(cssVar, value)
+
+          if (vnode.children && vnode.children.length) {
+            vnode.children.forEach((childVnode) => {
+              this._setVnodeVar(childVnode, cssVar, value);
+            });
+          }
+        }
+      }
+      
+    }
+  }],
+  data() {
+    return {
+      color: \\"blue\\",
+    }
+  },
+  methods: {
+    changeColor() {
+      if (this.color === \\"red\\") {
+        this.color = \\"black\\" 
+      } else {
+        this.color = \\"red\\"
+      }
+    }
+  }
+}
+
+</script>
+<style scoped lang='less' vars='true'>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.word {
+	/* background: v-bind(color);*/
+
+	/* p {*/
+	/* 	background: v-bind(color2);*/
+	/* }*/
+}
+
+</style>"
+`;
+
+exports[`transformMain In prod mode, will not generate cssVarsCode for css comment code when have vars attr in style without write v-bind() code 1`] = `undefined`;
+
+exports[`transformMain should work when use vars attr in style 1`] = `
+"<template>
+
+<div>
+  <button @click=\\"changeColor\\">change color</button>
+</div>
+
+</template>
+<script>
+
+//
+//
+//
+//
+//
+//
+//
+
+export default {
+  mixins: [{
+    mounted: function () {
+      if (!this._setVnodeVar) {
+        this._setVnodeVar = function(vnode, cssVar, value) {
+          if (!vnode.tag) {
+            return
+          }
+
+          vnode.elm.style.setProperty(cssVar, value)
+
+          if (vnode.children && vnode.children.length) {
+            vnode.children.forEach((childVnode) => {
+              this._setVnodeVar(childVnode, cssVar, value);
+            });
+          }
+        }
+      }
+      
+      this.$watch('color', function(nVal) { 
+        const vnode = this._vnode 
+        this._setVnodeVar(vnode, '--data-v-7ba5bd90-color', nVal)
+      }, { immediate: true })
+,
+      this.$watch('color2', function(nVal) { 
+        const vnode = this._vnode 
+        this._setVnodeVar(vnode, '--data-v-7ba5bd90-color2', nVal)
+      }, { immediate: true })
+
+    }
+  }],
+  data() {
+    return {
+      color: \\"blue\\",
+    }
+  },
+  methods: {
+    changeColor() {
+      if (this.color === \\"red\\") {
+        this.color = \\"black\\" 
+      } else {
+        this.color = \\"red\\"
+      }
+    }
+  }
+}
+
+</script>
+<style scoped lang='less' vars='true'>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.word {
+	background: var(--data-v-7ba5bd90-color);
+
+	p {
+		background: var(--data-v-7ba5bd90-color2);
+	}
+}
+
+</style>"
+`;

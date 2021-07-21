@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformStyle style block transform 1`] = `
+".word {
+	background: var(--data-v-7ba5bd90-color);
+
+	p {
+		background: var(--data-v-7ba5bd90-color2);
+	}
+}"
+`;
+
+exports[`transformStyle will not rewrite v-bind() for css comment 1`] = `
+".word {
+	/* background: v-bind(color);*/
+
+	/* p {*/
+	/* 	background: v-bind(color2);*/
+	/* }*/
+}"
+`;
