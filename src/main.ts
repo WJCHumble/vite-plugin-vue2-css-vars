@@ -21,13 +21,17 @@ export async function transformMain(
 
   // sfc hasn't style block
   if (!styles.length) {
-    return
+    return 
   }
 
   const {code: css} = await transformStyle(styles[0].content, id)
   const attrs = await parseCssVars(styles)
-  // In prod mode, will not auto inject useCssVars code without vars attr in <style> block
-  if (isProd && !styles[0].attrs.vars) {
+  /**
+   * In prod mode, will not auto inject useCssVars code cases:
+   * - didn't use vars attr in style
+   * - have vars attr in style, but not use v-bind() in <style> block
+   */
+  if ((isProd && !styles[0].attrs.vars) || (isProd && styles[0].attrs.vars && !attrs.length)) {
     return
   }
   // use v-bind(), but no use vars attr in <style> block
